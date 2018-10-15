@@ -156,11 +156,9 @@ map Y y$
  
 " Map <C-L> (redraw screen) to also turn off search highlighting until the
 " next search
-nnoremap <C-L> :nohl<CR><C-L>
+" nnoremap <C-L> :nohl<CR><C-L>
 
 inoremap jk <ESC>
-let mapleader = "<Space>"
- 
 "------------------------------------------------------------
 
 set cursorline
@@ -195,10 +193,31 @@ let g:lightline = {
     \ 'colorscheme': 'wombat',
     \ }
 
-autocmd FileType javascript setlocal ts=2 sts=2 sw=2
-autocmd FileType scss setlocal ts=2 sts=2 sw=2
-
 let g:closetag_filenames = '*.html,*.xhtml,*.phtml, *.mako, *.jsx' 
 let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
 let g:closetag_filetypes = 'html,xhtml,phtml,mako,jsx' 
+
+" Folding
+
+set foldlevelstart=1
+nnoremap <space> za
+
+function! NeatFoldText()
+    let line = ' ' . substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g') . ' '
+    let lines_count = v:foldend - v:foldstart + 1
+    let lines_count_text = '| ' . printf("%10s", lines_count . ' lines') . ' |'
+    let foldchar = matchstr(&fillchars, 'fold:\zs.')
+    let foldtextstart = strpart('+' . repeat(foldchar, v:foldlevel*2) . line, 0, (winwidth(0)*2)/3)
+    let foldtextend = lines_count_text . repeat(foldchar, 8)
+    let foldtextlength = strlen(substitute(foldtextstart . foldtextend, '.', 'x', 'g')) + &foldcolumn
+    return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+endfunction
+
+set foldtext=NeatFoldText()
+
+set foldmethod=indent
+highlight Folded ctermbg=239 ctermfg=219
+
+autocmd FileType javascript setlocal ts=2 sts=2 sw=2 foldmethod=syntax
+autocmd FileType scss setlocal ts=2 sts=2 sw=2
 
