@@ -180,8 +180,8 @@ endfunction
 
 execute pathogen#infect()
 
-set background=dark
-colors peaksea
+set termguicolors
+colorscheme dawn
 
 if !has('gui_running')
     set t_Co=256
@@ -193,9 +193,9 @@ let g:lightline = {
     \ 'colorscheme': 'wombat',
     \ }
 
-let g:closetag_filenames = '*.html,*.xhtml,*.phtml, *.mako, *.jsx' 
-let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
-let g:closetag_filetypes = 'html,xhtml,phtml,mako,jsx' 
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml, *.mako, *.jsx, *.js' 
+let g:closetag_xhtml_filenames = '*.xhtml,*.jsx,*.js'
+let g:closetag_filetypes = 'html,xhtml,phtml,mako,jsx,js' 
 
 " Folding
 
